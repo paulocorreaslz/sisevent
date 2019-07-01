@@ -1,28 +1,32 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="app" class="container-fluid">
+        <div class="site-info">
+            <h1>Aplicação</h1>
+            <h3>Vue - Spring Boot MVC</h3>
+        </div>
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            <router-link class="btn btn-primary" to="/">Clientes</router-link>
+            <router-link class="btn btn-primary" to="/add">Adicionar</router-link>
+            <router-link class="btn btn-primary" to="/search">Buscar</router-link>
+        </nav>
+		<br>
+        <span v-if="this.message != null" class="alert alert-primary" role="alert">{{ this.message }}</span>
+		<br>
+		<router-view/>
+		
+    </div>
 </template>
-
+ 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import CustomersListVue from './components/CustomersList.vue';
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  name: "app",
+  message: "",
+  data(){
+	  return {
+		  message: this.$route.params.message
+	  }
   }
-}
+  
+};
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
