@@ -76,6 +76,9 @@ export default {
         });
 	}
     /* eslint-enable no-console */
+  },
+  watch: {
+	 
   }
 };
 </script>

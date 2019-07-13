@@ -1,6 +1,5 @@
 package com.paulocorreaslz.sisevent.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -73,9 +72,8 @@ public class Customer {
   public void setAddress(Address address) {
 	this.address = address;
   }
-
   @Override
   public String toString() {
-    return "Customer [id=" + id + ", name=" + name + ", age=" + age + ", active=" + active + "]";
+    return "Customer [id customer=" + this.id + ", name=" + this.name + ", age=" + this.age + ", active=" + this.active + "]";
   }
 }

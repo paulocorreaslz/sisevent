@@ -3,6 +3,7 @@ package com.paulocorreaslz.sisevent.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
  
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.paulocorreaslz.sisevent.model.Address;
@@ -31,6 +34,7 @@ public class CustomerController {
   @Autowired
   CustomerRepository customerRepository;
   
+  @Autowired
   AddressRepository addressRepository;
  
   @GetMapping("/customers")
@@ -46,22 +50,28 @@ public class CustomerController {
   @PostMapping("/customer")
   public Customer postCustomer(@RequestBody Customer customer) {
  
-    Customer _customer = customerRepository.save(new Customer(customer.getName(), customer.getAge()));
+	System.out.println("customer add:"+customer.toString());
+
+	Customer _customer = customerRepository.save(new Customer(customer.getName(), customer.getAge()));
     return _customer;
   }
   
-  @PostMapping("/address")
-  public Customer postAdress(@RequestBody Customer customer, @RequestBody Address address) {
+  @RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/address")
+  public Customer postAdress(@RequestBody Customer customer, Address address) {
  
-	Customer _customer = customerRepository.findOne(customer.getId());
-	
-    Address _address = addressRepository.save(new Address(address.getStreet(),address.getPlacenumber(),address.getPostalcode()));
+	  System.out.println("customer recebido da view:"+customer.toString());
+	  
+	  Customer _customer = customerRepository.findOne(customer.getId());
+	 			  
+	  Address _address = addressRepository.save(new Address(customer.getAddress().getStreet(),customer.getAddress().getPlacenumber(),customer.getAddress().getPostalcode()));
+	  
+	  addressRepository.save(_address);
+	  
+	  _customer.setAddress(_address);
     
-    _customer.setAddress(_address);
-    
-    customerRepository.save(_customer);
-    
-    return _customer;
+	  customerRepository.save(_customer);
+      
+	  return _customer;
   }
  
   @DeleteMapping("/customer/{id}")

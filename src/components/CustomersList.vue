@@ -1,29 +1,36 @@
 <template>
-    <div class="mx-auto list row">
-        <div class="col-md-6">
-            <h4>Lista de Clientes</h4>
-            <ul>
-                <li v-for="(customer, index) in customers" :key="index">
-                    <router-link :to="{
-                            name: 'customer-details',
-                            params: { customer: customer, id: customer.id }
-                        }">
-                            {{customer.name}}
-                    </router-link>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <router-view @refreshData="refreshList"></router-view>
-        </div>
+    <div class="mx-auto list">
+		<Message></Message>
+		<p v-on:click="printPdf"> <a href="#"> Imprimir </a></p>
+		<div class="table">
+			<div class="tr">
+				<div class="td">
+					<h4>Lista de Clientes</h4>
+					<ul>
+						<li v-for="(customer, index) in customers" :key="index">
+							<router-link :to="{
+									name: 'customer-details',
+									params: { customer: customer, id: customer.id }
+								}">
+									{{customer.name}}
+							</router-link>
+						</li>
+					</ul>
+				</div>
+				<div class="td">
+					<router-view @refreshData="refreshList"></router-view>
+				</div>
+			</div>
+		</div>
     </div>
 </template>
  
 <script>
 import http from "../http-common";
- 
+
 export default {
   name: "customers-list",
+  props: ['msgalert'],
   data() {
     return {
 	  customers: [],
@@ -43,16 +50,26 @@ export default {
 		  console.log(this.messageList);
         })
         .catch(e => {
-          console.log(e);
+		  console.log(e);
+		  alert(e);
         });
 	},
     refreshList() {
       this.retrieveCustomers();
-    }
+	},
+	printPdf(){
+		alert("imprimir pdf");
+	}
     /* eslint-enable no-console */
   },
   mounted() {
 	this.retrieveCustomers();
+  },
+  watch: {
+	$route(to, from){
+		this.retrieveCustomers();
+		this.refreshList();
+	}
   }
 };
 </script>

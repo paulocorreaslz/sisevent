@@ -4,11 +4,8 @@ import CustomersList from "./components/CustomersList.vue";
 import AddCustomer from "./components/AddCustomer.vue";
 import SearchCustomers from "./components/SearchCustomers.vue";
 import Customer from "./components/Customer.vue";
-import Menu from "./components/Menu.vue";
-
 
 Vue.use(Router);
-Vue.use(Menu);
 
 export default new Router({
   mode: "history",

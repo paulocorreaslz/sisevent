@@ -1,4 +1,5 @@
 <template>
+<div class="list"> 
   <div v-if="this.customer">
     <h4>Cliente</h4>
     <div>
@@ -17,7 +18,7 @@
       v-on:click="updateActive(true)"
       class="button btn-primary">Active</button>
     <button class="button btn-danger" v-on:click="deleteCustomer()">Delete</button>
-	<br>
+	<p></p>
 			<div class="submitform">
 				<div v-if="customer.address != null">
 					<div class="form-group">
@@ -35,20 +36,20 @@
 					<button v-on:click="addAddress" class="btn btn-success">Salvar</button>
 				</div>
 				<div v-else>
-				<h2> Cadastrar Endereço:</h2>
+				<h4> Cadastrar Endereço:</h4>
 					<div class="submitform">
 					<div v-if="!submittedAddress">
 						<div class="form-group">
 						<label for="name">Rua</label>
-						<input type="text" class="form-control" id="street" required v-model="customer.address.street" name="street">
+						<input type="text" class="form-control" id="street" v-model="address.street" required name="street">
 						</div>
 						<div class="form-group">
 						<label for="age">Numero</label>
-						<input type="number" class="form-control" id="placenumber" required name="placenumber">
+						<input type="number" class="form-control" id="placenumber" v-model="address.placenumber" required name="placenumber">
 						</div>
 						<div class="form-group">
 						<label for="age">Código postal</label>
-						<input type="number" class="form-control" id="postalcode" required name="postalcode">
+						<input type="number" class="form-control" id="postalcode" v-model="address.postalcode" required name="postalcode">
 						</div>
 						<button v-on:click="addAddress" class="btn btn-success">Salvar</button>
 					</div>
@@ -64,33 +65,46 @@
     <br/>
     <p>Selecione um cliente...</p>
   </div>
+</div>
 </template>
  
 <script>
 import http from "../http-common";
+import { watch } from 'fs';
  
 export default {
   name: "customer",
   props: ["customer"],
   data() {
+	  // newcustomer não é visualizado fora de data()
     return {
-		customer: {
-        id: 0,
-        name: "",
-        age: 0,
-		active: false,
-		address: {
-			id:0,
-			street: "",
-			placenumber: 0,
-			postalcode:""
-		}
-      },
-	  submittedAddress: false
+	  messagelocal:'',
+	  submittedAddress: false,
+	  newcustomer: { 
+		  id: 0,
+		  name: "",
+		  age: 0,
+		  address: {
+			  street: "",
+		      placenumber: 0,
+		  	  postalcode: 0
+		  }
+	  },
+	  address: {
+		  street: "",
+		  placenumber: 0,
+		  postalcode: 0
+	  },
     };
   },
+  
   methods: {
-    /* eslint-disable no-console */
+	/* eslint-disable no-console */
+	setMessage (event) {
+      this.messagelocal = event.target.value;
+      this.$emit('messageChanged', this.messagelocal)
+    },
+  
     updateActive(status) {
       var data = {
         id: this.customer.id,
@@ -103,7 +117,7 @@ export default {
       http
         .put("/customer/" + this.customer.id, data)
         .then(response => {
-          this.customer.active = response.data.active;
+		  this.customer.active = response.data.active;
           console.log(response.data);
         })
         .catch(e => {
@@ -124,25 +138,23 @@ export default {
           console.log(e);
         });
 	},
-	/* eslint-disable no-console */
-    addAddress() {
-      var data = {
-		street: '',
-		placenumber: '',
-		postalcode: ''
-      };
- 
+    addAddress() {	
+	this.newcustomer.address = { ...this.address };
+	
+	var data = {...this.newcustomer};
+	  console.log(data);
+	
       http
         .post("/address", data)
         .then(response => {
-		  this.customer.id = response.data.id;
-		  this.customer = response.data.customer;
-          console.log(response.data);
-        })
+		  this.mensagem = "Endereço cadastrado!";
+		  console.log(this.mensagem); 
+		  this.$router.push({name: 'customers', params: { message:this.mensagem }});
+		  console.log(response.data);
+	   })
         .catch(e => {
           console.log(e);
         });
- 
 	  this.submittedAddress = true;
     },
     newAddress() {
@@ -150,6 +162,17 @@ export default {
 	  this.customer = {};
     }
     /* eslint-enable no-console */
+  },
+  mounted(){
+	  this.newcustomer = { ...this.customer };
+  },
+  watch : {
+	  customer (newvalue, oldvalue) {
+		console.log("alterou customer:")
+	  	console.log(newvalue);
+		console.log(oldvalue);
+		this.newcustomer = { ...this.customer };		  
+	  }
   }
 };
 </script>
