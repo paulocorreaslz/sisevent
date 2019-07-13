@@ -112,6 +112,11 @@ public class CustomerController {
     return customers;
   }
   
+  @GetMapping("/online")
+  public String online() {
+    return "online";
+  }
+  
   @GetMapping("customers/name/{nome}")
   public List<Customer> getCustomersByName(@PathVariable String nome) {
     System.out.println("Get all Customers per name...");
