@@ -1,12 +1,17 @@
 package com.paulocorreaslz.sisevent.controller;
 
 
+import java.io.ByteArrayInputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
- 
+
+import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,6 +30,7 @@ import com.paulocorreaslz.sisevent.model.Address;
 import com.paulocorreaslz.sisevent.model.Customer;
 import com.paulocorreaslz.sisevent.repo.AddressRepository;
 import com.paulocorreaslz.sisevent.repo.CustomerRepository;
+import com.paulocorreaslz.util.PdfReportUtil;
  
 @CrossOrigin(origins = {"http://localhost:4200","http://localhost"})
 @RestController
@@ -56,20 +62,34 @@ public class CustomerController {
     return _customer;
   }
   
+  @RequestMapping(value = "/pdfreport", method = RequestMethod.GET,
+          produces = MediaType.APPLICATION_PDF_VALUE)
+  public ResponseEntity<InputStreamResource> customerReport() {
+
+      List<Customer> customers = (List<Customer>) customerRepository.findAll();
+
+      ByteArrayInputStream input = PdfReportUtil.customerReport(customers);
+
+      HttpHeaders headers = new HttpHeaders();
+      headers.add("Content-Disposition", "inline; filename=CustomerReport.pdf");
+      
+      return ResponseEntity
+              .ok()
+              .headers(headers)
+              .contentType(MediaType.APPLICATION_PDF)
+              .body(new InputStreamResource(input));
+  }
+  
   @RequestMapping(method = RequestMethod.POST, produces = "application/json", value = "/address")
   public Customer postAdress(@RequestBody Customer customer, Address address) {
  
 	  System.out.println("customer recebido da view:"+customer.toString());
 	  
-	  Customer _customer = customerRepository.findOne(customer.getId());
-	 			  
+	  Customer _customer = customerRepository.findOne(customer.getId());			  
 	  Address _address = addressRepository.save(new Address(customer.getAddress().getStreet(),customer.getAddress().getPlacenumber(),customer.getAddress().getPostalcode()));
-	  
 	  addressRepository.save(_address);
-	  
 	  _customer.setAddress(_address);
-    
-	  customerRepository.save(_customer);
+      customerRepository.save(_customer);
       
 	  return _customer;
   }

@@ -58,7 +58,36 @@ export default {
       this.retrieveCustomers();
 	},
 	printPdf(){
-		alert("imprimir pdf");
+		
+		http
+        .get("/pdfreport",{
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/pdf'
+            }
+        })
+        .then(response => {
+			
+			// open in window pdf
+			// var blob = new Blob([response.data], {
+          	//	type: 'application/pdf'
+		   	//});
+		   	//var url = window.URL.createObjectURL(blob)
+			//window.open(url);
+
+			//download pdf
+			const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'file.pdf'); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+	   })
+        .catch(e => {
+		  console.log(e);
+		  alert(e);
+        });
 	}
     /* eslint-enable no-console */
   },
