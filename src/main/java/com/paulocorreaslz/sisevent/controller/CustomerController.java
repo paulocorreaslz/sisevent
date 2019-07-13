@@ -32,7 +32,7 @@ import com.paulocorreaslz.sisevent.repo.AddressRepository;
 import com.paulocorreaslz.sisevent.repo.CustomerRepository;
 import com.paulocorreaslz.sisevent.reports.CustomerReport;
  
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost","https://sisevent.herokuapp.com/"})
 @RestController
 @RequestMapping("/api")
 public class CustomerController {
