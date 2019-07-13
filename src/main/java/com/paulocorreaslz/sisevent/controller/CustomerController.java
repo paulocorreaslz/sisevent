@@ -26,11 +26,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.paulocorreaslz.reports.CustomerReport;
 import com.paulocorreaslz.sisevent.model.Address;
 import com.paulocorreaslz.sisevent.model.Customer;
 import com.paulocorreaslz.sisevent.repo.AddressRepository;
 import com.paulocorreaslz.sisevent.repo.CustomerRepository;
+import com.paulocorreaslz.sisevent.reports.CustomerReport;
  
 @CrossOrigin(origins = {"http://localhost:4200","http://localhost"})
 @RestController
