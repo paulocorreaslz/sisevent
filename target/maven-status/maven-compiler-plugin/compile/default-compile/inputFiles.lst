@@ -1,0 +1,8 @@
+/home/paulo/eclipse-workspace/sisevent/src/main/java/com/paulocorreaslz/sisevent/model/Customer.java
+/home/paulo/eclipse-workspace/sisevent/src/main/java/com/paulocorreaslz/sisevent/SiseventApplication.java
+/home/paulo/eclipse-workspace/sisevent/src/main/java/com/paulocorreaslz/sisevent/repo/CustomerRepository.java
+/home/paulo/eclipse-workspace/sisevent/src/main/java/com/paulocorreaslz/sisevent/data/DataConfiguration.java
+/home/paulo/eclipse-workspace/sisevent/src/main/java/com/paulocorreaslz/sisevent/controller/CustomerController.java
+/home/paulo/eclipse-workspace/sisevent/src/main/java/com/paulocorreaslz/reports/CustomerReport.java
+/home/paulo/eclipse-workspace/sisevent/src/main/java/com/paulocorreaslz/sisevent/model/Address.java
+/home/paulo/eclipse-workspace/sisevent/src/main/java/com/paulocorreaslz/sisevent/repo/AddressRepository.java

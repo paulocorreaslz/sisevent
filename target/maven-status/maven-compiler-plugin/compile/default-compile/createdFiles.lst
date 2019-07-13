@@ -1,0 +1,8 @@
+com/paulocorreaslz/sisevent/repo/AddressRepository.class
+com/paulocorreaslz/sisevent/data/DataConfiguration.class
+com/paulocorreaslz/sisevent/controller/CustomerController.class
+com/paulocorreaslz/reports/CustomerReport.class
+com/paulocorreaslz/sisevent/repo/CustomerRepository.class
+com/paulocorreaslz/sisevent/SiseventApplication.class
+com/paulocorreaslz/sisevent/model/Customer.class
+com/paulocorreaslz/sisevent/model/Address.class

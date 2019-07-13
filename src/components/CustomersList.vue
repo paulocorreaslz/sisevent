@@ -60,7 +60,7 @@ export default {
 	printPdf(){
 		
 		http
-        .get("/pdfreport",{
+        .get("/getCustomerReport",{
             responseType: 'arraybuffer',
             headers: {
                 'Content-Type': 'application/json',

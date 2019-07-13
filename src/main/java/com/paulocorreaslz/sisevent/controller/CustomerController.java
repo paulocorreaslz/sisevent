@@ -26,11 +26,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.paulocorreaslz.reports.CustomerReport;
 import com.paulocorreaslz.sisevent.model.Address;
 import com.paulocorreaslz.sisevent.model.Customer;
 import com.paulocorreaslz.sisevent.repo.AddressRepository;
 import com.paulocorreaslz.sisevent.repo.CustomerRepository;
-import com.paulocorreaslz.util.PdfReportUtil;
  
 @CrossOrigin(origins = {"http://localhost:4200","http://localhost"})
 @RestController
@@ -62,13 +62,13 @@ public class CustomerController {
     return _customer;
   }
   
-  @RequestMapping(value = "/pdfreport", method = RequestMethod.GET,
+  @RequestMapping(value = "/getCustomerReport", method = RequestMethod.GET,
           produces = MediaType.APPLICATION_PDF_VALUE)
   public ResponseEntity<InputStreamResource> customerReport() {
 
       List<Customer> customers = (List<Customer>) customerRepository.findAll();
 
-      ByteArrayInputStream input = PdfReportUtil.customerReport(customers);
+      ByteArrayInputStream input = CustomerReport.getCustomers(customers);
 
       HttpHeaders headers = new HttpHeaders();
       headers.add("Content-Disposition", "inline; filename=CustomerReport.pdf");
